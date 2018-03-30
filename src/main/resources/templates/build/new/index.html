@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--<title th:text="${title}">Some title</title>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h1>Validate/Generate Data From SEAL</h1>
+
+<form action="#" th:action="@{/builds/new}" th:object="${config}" method="post">
+    <table style="width:1000px">
+
+        <tr style="width: 500px">
+            <td width="10%" hidden="hidden">
+                Id:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{id}" style="width: 700px" hidden="hidden"/></span>
+            </td>
+        </tr>
+
+        <tr style="width: 500px">
+            <td width="10%">
+                Seal Export File:
+            </td>
+            <td width="70%">
+                <span><input disabled="true" type="text" th:field="*{contractsFile}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Attachments Folder:
+            </td>
+            <td width="70%">
+                <span><input disabled="true" type="text" th:field="*{folderAttachmentsRoot}"
+                             style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Attachments (Searchable) Folder:
+            </td>
+            <td width="70%">
+                <span><input disabled="true" type="text" th:field="*{folderAttachmentDupliatesRoot}"
+                             style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Default User:
+            </td>
+            <td width="70%">
+                <span><input disabled="true" type="text" th:field="*{DefaultOwner}" style="width: 700px"/></span>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr style="width: 500px">
+            <td width="10%">
+                Include Attachments:
+            </td>
+            <td width="70%">
+                <span><input disabled="true" type="checkbox" th:field="*{includeAttachments}"
+                             style="width: 700px"/></span>
+            </td>
+        </tr>
+    </table>
+
+
+    <table style="width:1000px">
+        <tr style="width: 100%">
+            <td style="width: 30%">
+            </td>
+            <td style="width: 30%">
+                <p>
+                    <button type="submit" name="action" value="VALIDATE">Validate</button>
+                </p>
+            </td>
+            <td style="width: 30%">
+                <button type="submit" name="action" value="GENERATE" th:disabled="${isWorking}"
+                        th:text="${isWorking}?'Working...('+${itemsLeft}+')':'Generate'"/>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>

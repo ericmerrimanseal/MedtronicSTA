@@ -1,0 +1,105 @@
+{
+  "id": "f3496f549697562cec5a116db3c39ee3ffb9c40f",
+  "filename": "F-1963091094-20170118_BP_LTU_Extension Deed.pdf",
+  "metadata": {
+    "items": [
+      {
+        "name": "MigrationErrorDesc",
+        "values": [
+          {
+            "origin": "ARIBA",
+            "value": "",
+            "attributes": [
+              {
+                "name": "EmptyField",
+                "value": "true"
+              },
+              {
+                "name": "origin",
+                "value": "ARIBA"
+              }
+            ],
+            "type": "String"
+          }
+        ]
+      },
+      {
+        "name": "MigrationReady",
+        "values": [
+          {
+            "origin": "ARIBA",
+            "value": "Yes ",
+            "attributes": [
+              {
+                "name": "origin",
+                "value": "ARIBA"
+              }
+            ],
+            "type": "String"
+          }
+        ]
+      },
+      {
+        "name": "ReviewType",
+        "values": [
+          {
+            "origin": "user",
+            "value": "Supporting Document",
+            "attributes": [
+              {
+                "name": "origin",
+                "value": "user"
+              }
+            ],
+            "type": "String"
+          }
+        ]
+      },
+      {
+        "name": "ReviewComplete",
+        "values": [
+          {
+            "origin": "user",
+            "value": "Yes",
+            "attributes": [
+              {
+                "name": "origin",
+                "value": "user"
+              }
+            ],
+            "type": "String"
+          }
+        ]
+      },
+      {
+        "name": "ContractOwner",
+        "values": [{
+          "origin": "scd",
+          "value": "Tipping, Eliza",
+          "attributes": [],
+          "type": "String"
+        }]
+      },
+      {
+        "name": "DocumentType",
+        "values": [{
+          "origin": "scd",
+          "value": "C4",
+          "attributes": [],
+          "type": "String"
+        }]
+      },
+      {
+        "name": "BPContractID",
+        "values": [
+          {
+            "origin": "scd",
+            "value": "BP00214978",
+            "attributes": [],
+            "type": "String"
+          }
+        ]
+      }
+    ]
+  }
+}

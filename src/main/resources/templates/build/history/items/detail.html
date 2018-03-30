@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h1 th:text="|Contract ${item.uniqueName}|"/>
+
+<div>
+    <table border="0" cellpadding="10">
+        <tr>
+            <td><b>Title:</b></td>
+            <td th:text="${item.title}"></td>
+            <td><b>Supplier:</b></td>
+            <td th:text="${item.data.supplier}"></td>
+        </tr>
+        <tr>
+            <td><b>Hierarchical Type:</b></td>
+            <td th:text="${item.hierarchicalType}"></td>
+            <td><b>Amount:</b></td>
+            <td th:text="${item.data.amount}"></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <table border="solid">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Active</th>
+            <th>Hash</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Sync Status</th>
+            <th>Error</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="doc,iterStat : ${item.documents}" th:bgcolor="${iterStat.odd}? '#e2e7e9'" th:style="${!doc.active}? 'color:dimgray'">
+            <td th:text="${iterStat.count}"/>
+            <td th:text="${doc.active}" align="middle"/>
+            <td th:text="${doc.hash}"/>
+            <td th:text="${doc.name}"/>
+            <td align="middle" th:text="${doc.status}"
+                th:bgcolor="${doc.isImported()}? 'green' : (${doc.isFailed()}? 'red':'white')"/>
+            <td align="middle" th:text="${doc.sealSyncStatus}"
+                th:bgcolor="${doc.sealSyncStatus.name()=='SYNCED'}?'green':(${doc.sealSyncStatus.name()=='SYNCING'}? 'orange':(${doc.isFailed()}? 'red':'white'))"/>
+            <td th:text="${doc.errorMessage}"/>
+            <td>
+                <a target="_blank" th:href="@{/builds/history/items/detail/{documentId}/seal(documentId=${doc.hash})}"
+                   th:text="${'Show in Seal'}"/>
+
+                <a target="_blank" th:href="@{/builds/history/items/detail/{documentId}/seal/download(documentId=${doc.hash})}"
+                   th:text="${'Download from Seal'}"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

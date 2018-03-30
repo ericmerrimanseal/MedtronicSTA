@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--<title th:text="${title}">Some title</title>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h1><span th:text="'Upload File'"/></h1>
+
+<form method="post" action="#" enctype="multipart/form-data">
+
+    <table border="0" cellspacing="10">
+        <tr>
+            <td>
+                <input type="file" name="file" id="file" accept=".csv" style="width: 300px"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+        </tr>
+    </table>
+    <table border="0" cellspacing="10">
+        <tr>
+            <td>
+                <button type="submit" name="action" value="SAVE">Upload</button>
+            </td>
+            <td>
+                <button type="submit" name="action" value="CANCEL">Back</button>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>

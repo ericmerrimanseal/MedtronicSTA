@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript">
+        function confSubmit(form) {
+            if (confirm("Are you sure you want to import it?")) {
+                form.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h1>Items Generated</h1>
+
+<div>
+    <p></p>
+
+    <div><h3>Filter By State</h3></div>
+    <div>
+        <table border="0" cellspacing="10">
+            <tr>
+                <th th:each="state : ${states.entrySet()}"><a
+                        th:href="@{/builds/history/items/filter/status/{status}(status=${state.getKey()})}"
+                        th:text="${state.getKey()+' ('+state.getValue()+')'}"/></th>
+            </tr>
+        </table>
+    </div>
+    <p></p>
+
+    <div><h3>Filter By HierarchicalType</h3></div>
+    <div>
+        <table border="0" cellspacing="10">
+            <tr>
+                <th th:each="type : ${hierarchicaltypes.entrySet()}"><a
+                        th:href="@{/builds/history/items/filter/hierarchicaltype/{ht}(ht=${type.getKey()})}"
+                        th:text="${type.getKey()+' ('+type.getValue()+')'}"/></th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div>
+    <h3 th:text="|IMPORT STATUS: ${status}|+${status.name()=='IN_PROGRESS'?' ('+left+')':''}"></h3>
+    <form action="#" method="POST">
+        <table border="0" cellspacing="10">
+            <tr>
+                <td>
+                    <button type="submit"
+                            onclick="confSubmit(this.form)"
+                            name="query"
+                            value="StandAlone"
+                            th:disabled="${status.name()=='IN_PROGRESS'}">
+                        Import StandAlones
+                    </button>
+                </td>
+                <td>
+                    <button type="submit"
+                            onclick="confSubmit(this.form)"
+                            name="query"
+                            value="MasterAgreement"
+                            th:disabled="${status.name()=='IN_PROGRESS'}">
+                        Import Masters
+                    </button>
+                </td>
+                <td>
+                    <button type="submit"
+                            onclick="confSubmit(this.form)"
+                            name="query"
+                            value="STANDALONE_AND_MASTER"
+                            th:disabled="${status.name()=='IN_PROGRESS'}">
+                        Import StandAlone And Masters
+                    </button>
+                </td>
+                <td>
+                    <button type="submit"
+                            onclick="confSubmit(this.form)"
+                            name="query"
+                            value="SubAgreement"
+                            th:disabled="${status.name()=='IN_PROGRESS'}">
+                        Import SubAgreements
+                    </button>
+                </td>
+                <td>
+                    <button type="submit"
+                            onclick="confSubmit(this.form)"
+                            name="query"
+                            value="ALL"
+                            th:disabled="${status.name()=='IN_PROGRESS'}">
+                        Import All
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<form action="#" method="POST">
+    <table border="solid">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Active</th>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Hierarchy Type</th>
+            <th>Time Generated</th>
+            <th>Import Start Time</th>
+            <th>Import Finish Time</th>
+            <th>Number of Attachments</th>
+            <th>Attachments Imported</th>
+            <th>Import Status</th>
+            <th>Sync Status</th>
+            <th>Ariba Id</th>
+            <th>Errors</th>
+            <th>Actions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="item,iterStat : ${items}" th:bgcolor="${iterStat.odd}? '#e2e7e9'"
+            th:style="${!item.isActive()}? 'color:dimgray'">
+            <td align="middle" th:text="${iterStat.count}"/>
+            <td align="middle" th:text="${item.isActive()}"/>
+            <td><a th:href="@{/builds/history/items/detail/{contractid}(contractid=${item.uniqueName})}"
+                   th:text="${item.uniqueName}"/></td>
+            <td th:text="${item.title}"/>
+            <td th:text="${item.hierarchicalType}"/>
+            <td th:text="${item.generatedTime}"/>
+            <td th:text="${item.importStartTime}"/>
+            <td th:text="${item.importFinishTime}"/>
+            <td align="middle" th:text="|${item.getNumberOfActiveDocuments()} / ${item.getNumberOfDocuments()}|"/>
+            <td align="middle" th:text="${item.getNumberOfDocumentsImported()}"
+                th:bgcolor="${item.getNumberOfActiveDocuments()==item.getNumberOfDocumentsImported()}? 'green' : 'white'"/>
+            <td align="middle" th:text="${item.status}"
+                th:bgcolor="${item.isImported()}? 'green' : (${item.isFailed()}? 'red':(${item.isLocked()}? 'orange':'white'))"/>
+            <td align="middle" th:text="${item.sealSyncStatus}"
+                th:bgcolor="${item.sealSyncStatus.name()=='SYNCED'}?'green':(${item.sealSyncStatus.name()=='SYNCING'}? 'orange':(${item.sealSyncStatus.name()=='SYNCING_FAILED'}? 'red':'white'))"/>
+            <td th:text="${item.aribaId}"/>
+            <td th:text="${item.getErrors()}"/>
+            <td>
+                <table cellspacing="10">
+                    <tr>
+                        <td>
+                            <button type="submit"
+                                    onclick="confSubmit(this.form)"
+                                    name="query"
+                                    th:value="${item.uniqueName}"
+                                    th:disabled="${status.name()=='IN_PROGRESS' || !item.status.canImport() || !item.isActive()}">
+                                Import It
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a target="_blank"
+                               th:href="@{${item.aribaWebJumper}}"
+                               th:text="${'Show Me'}"
+                               th:hidden="${item.aribaWebJumper}==null"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "id": "0",
+  "inFile": "./in/test_new_valid2.csv",
+  "aribaURL": "https://s1-eu.ariba.com/Sourcing/soap/bp-T",
+  "aribaUser": "ariba_saop_user_name",
+  "aribaPwd": "ariba_saop_user_pwd",
+  "usersFile": "./in/masterdata/PROD/users.csv",
+  "supplierProfileFile": "./in/masterdata/PROD/supplierprofiles_approved.csv",
+  "aribaTemplate": "ariba_template_id",
+  "defaultOwner": "ContractUploadUser1",
+  "enumsFile": "./in/masterdata/PROD/enums.csv",
+  "commodityCodesFile": "./in/masterdata/PROD/commoditycodes.csv",
+  "rootFolder": "Legacy Contract Documents",
+  "sealURL": "seal_instance_url",
+  "sealUser": "seal_instance_username",
+  "sealPassword": "seal_instance_pwd",
+  "defaultOwnerPasswordAdapter": "ThirdPartyUser",
+  "useDefaultOwner": false
+}

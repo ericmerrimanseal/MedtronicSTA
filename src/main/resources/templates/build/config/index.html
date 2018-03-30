@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--<title th:text="${title}">Some title</title>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h1><span th:text="'Configuration'"/></h1>
+
+<style>
+    tr.error {
+        color: red;
+        width: 500px;
+    }
+</style>
+
+<form action="#" th:action="@{/config}" th:object="${config}" method="post">
+
+    <table border="0" cellspacing="10" style="width:1000px">
+
+        <tr th:each="error: ${errors}" class="error">
+            <td width="10%"></td>
+            <td width="50%">
+                <div th:text="${error.formatted()}" style="width: 700px"/>
+            </td>
+        </tr>
+
+        <tr style="width: 500px">
+            <td width="10%" hidden="hidden">
+                Id:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{id}" style="width: 700px" hidden="hidden"/></span>
+            </td>
+        </tr>
+
+        <tr style="width: 500px">
+            <td width="10%">
+                Seal Export File:
+            </td>
+            <td width="70%">
+                <input type="text" th:field="*{inFile}" style="width: 700px"/>
+            </td>
+            <td>
+                <button type="submit" name="params" value="UPLOAD_FILE:IN_FILE">Upload</button>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Users file:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{usersFile}" style="width: 700px"/></span>
+            </td>
+            <td>
+                <button type="submit" name="params" value="UPLOAD_FILE:USERS_FILE">Upload</button>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Suppliers file:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{supplierProfileFile}" style="width: 700px"/></span>
+            </td>
+            <td>
+                <button type="submit" name="params" value="UPLOAD_FILE:SUPPLIERS_FILE">Upload</button>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Enumerations file:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{enumsFile}" style="width: 700px"/></span>
+            </td>
+            <td>
+                <button type="submit" name="params" value="UPLOAD_FILE:ENUMERATION_FILE">Upload</button>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Commodities file:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{commodityCodesFile}" style="width: 700px"/></span>
+            </td>
+            <td>
+                <button type="submit" name="params" value="UPLOAD_FILE:COMMODITY_CODE_FILE">Upload</button>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Use Default Contract Owner (in Ariba):
+            </td>
+            <td width="70%">
+                <input type="checkbox" th:field="*{useDefaultOwner}" style="align-content: flex-start"/>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Default Contract Owner (in Ariba):
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{defaultOwner}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Default Contract Owner's Password Adapter (in Ariba):
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{defaultOwnerPasswordAdapter}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Ariba Template:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{aribaTemplate}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Ariba URL:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{aribaURL}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Webservice Ariba User:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{aribaUser}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Webservice Ariba Password:
+            </td>
+            <td width="70%">
+                <span><input class="input-text" type="password" th:field="*{aribaPwd}" style="width: 700px"/></span>
+            </td>
+        </tr>
+
+        <tr style="width: 500px">
+            <td width="10%">
+                Seal URL:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{sealURL}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Seal REST User:
+            </td>
+            <td width="70%">
+                <span><input type="text" th:field="*{sealUser}" style="width: 700px"/></span>
+            </td>
+        </tr>
+        <tr style="width: 500px">
+            <td width="10%">
+                Seal REST Password:
+            </td>
+            <td width="70%">
+                <span><input class="input-text" type="password" th:field="*{sealPassword}" style="width: 700px"/></span>
+            </td>
+        </tr>
+    </table>
+    <table>
+    </table>
+
+
+    <table style="width:1000px">
+        <tr style="width: 100%">
+            <td style="width: 30%">
+            </td>
+            <td style="width: 30%">
+                <p>
+                    <button type="submit" name="params" value="SAVE">Save</button>
+                </p>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>

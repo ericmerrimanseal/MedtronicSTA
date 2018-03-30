@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:typens="urn:Ariba:Sourcing:vrealm_50309" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="ContractWorkspaceImport" targetNamespace="urn:Ariba:Sourcing:vrealm_50309">
+    <wsdl:types>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:Ariba:Sourcing:vrealm_50309" xmlns:typens="urn:Ariba:Sourcing:vrealm_50309">
+            <xsd:element name="Headers">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="variant" type="xsd:string"/>
+                        <xsd:element maxOccurs="1" minOccurs="0" name="partition" type="xsd:string"/>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ContractWorkspaceImportRequest">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element minOccurs="0" name="WSContractWorkspaceInputBean_Item">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element maxOccurs="1" minOccurs="0" name="item" type="typens:WSContractWorkspaceInputBean"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:all>
+                    <xsd:attribute name="partition" type="xsd:string"/>
+                    <xsd:attribute name="variant" type="xsd:string"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ContractWorkspaceImportReply">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element minOccurs="0" name="WSContractWorkspaceOutputBean_Item">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element maxOccurs="1" minOccurs="0" name="item" type="typens:WSContractWorkspaceOutputBean"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:all>
+                    <xsd:attribute name="partition" type="xsd:string"/>
+                    <xsd:attribute name="variant" type="xsd:string"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="WSContractWorkspaceInputBean">
+                <xsd:all>
+                    <xsd:element name="Action" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>The action for the task.  Valid values: Create (creates a new project), Update (update project fields of an existing project). For contract workspaces, you can update the fields of a published workspace, but this will not create a new amendment or version.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="1" name="OnBehalfUserId" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Specifies the user ID of the user for whom the Ariba web service will perform the action. User id on whose behalf the changes are made.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="OnBehalfUserPasswordAdapter" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Specifies the password adapter to authenticate the user in the OnBehalfUserId element.  If you are not using a custom password adapter, you can omit this element or leave the value unspecified and the web service will use the default password adapter.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="ParentAgreementId" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Parent Agreement id.  For e.g., CW1234. This is used for creating SubAgreements</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="ParentWorkspaceId" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Parent  workspace ID. Example: WS1234. This is used for creating subprojects</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="ProjectHeaderFields" type="typens:ContractWorkspace_WSProjectImport">
+                        <xsd:annotation>
+                            <xsd:documentation>ProjectHeaderFields: All values are xsd:string unless otherwise noted.
+                                AffectedParties: (Optional) Supplier or customer organizations that are involved in the project, but might not be direct participants. For contracts, this field is often used in contracts referred to as "multi-party" contracts. Contains item elements.
+                                AffectedParties.item: (Optional) Contains SystemID and custom elements.
+                                AffectedParties.item.SystemID: (Required) Specifies the system ID for the organization. To determine valid values, use the Export Organizations task.
+                                AffectedParties.item.custom: (Optional) Custom fields. Omit if your site does not have custom organization fields.
+                                AgreementDate: (Optional) The date for the agreement (xsd:dateTime). You can use this field as defined by your organization. Example: 2014-01-31T12:00:00.
+                                Amount: (Optional) The monetary amount for the contract. Contains Amount and Currency elements.
+                                Amount.Amount: (Optional) Amount (xsd:decimal).
+                                Amount.Currency: (Optional) Contains UniqueName element.
+                                Amount.Currency.UniqueName: (Optional) Specifies the currency type using the ISO 4217 alphabetic code. To determine valid values, use the Export Currency (CSV) task.  Examples: USD, EUR, CNY.
+                                AutoRenewalInterval: (Optional) Specifies the renewal interval, in months. Required if ExpirationTermType is AutoRenew.
+                                BaseLanguage: (Optional) Specifies the language in which a user sees the project if there is no translation for the project in the user's preferred language. Contains UniqueName element.
+                                BaseLanguage.UniqueName: (Optional) Language name. For a list of valid values, use the Export Language (CSV) task.
+                                Client: (Optional) The departments in your company for which the project is applicable. Contains item elements.
+                                Client.item: (Optional) Contains DepartmentID element.
+                                Client.item.DepartmentID: (Optional) Specifies the system ID for the department. To determine valid values, use the Export Departments task.
+                                Commodity: (Optional) The commodities for the project. Contains item elements.
+                                Commodity.item: (Optional) Contains Domain and UniqueName elements.
+                                Commodity.item.Domain: (Required) Specifies the domain or organization that defines the values for the commodity code. For most installations, the value will be unspsc (Universal Standard Products and Services Classification). To determine the value, use the Export Commodity Codes task.
+                                Commodity.item.UniqueName (Required) Specifies the ID for the commodity, such as the numeric commodity code. To determine the valid commodity ID values, use the Export Commodity Codes task.
+                                ContractId (Optional) Specifies the contract's unique ID. This can be the unique ID used in the third-party system. If you are creating a contract project, the system creates the project and assigns this contract ID if it is not already in use; if you do not specify a value, the Ariba web service assigns the system-generated workspace ID as the contract ID. If you are updating a project, you must use the ContractId element or the WorkspaceId element to identify the project you want to update.
+                                Description: (Optional) Description for the project. Contains DefaultStringTranslation element.
+                                Description.DefaultStringTranslation: (Optional) Description.
+                                EffectiveDate (Required): The date when the terms of the contract go into effect (xsd:dateTime). Example: 2014-01-31T12:00:00.
+                                ExpirationDate: (Optional) The date on which the contract expires (xsd:dateTime). This field is ignored in contract workspaces with a Perpetual expiration term type. Example: 2014-01-31T12:00:00.
+                                ExpirationTermType: (Required) Controls the behavior of a contract project when it reaches its expiration date. Valid values: Fixed (the contract workspace expires when it reaches its expiration date,  Perpetual (the contract workspace never expires; also known as an evergreen contract), AutoRenew (the contract workspace is automatically extended past its expiration date according to the AutoRenewalInterval and the MaxAutoRenewalsAllowed elements).
+                                HierarchicalType: (Optional) Specifies the hiearchical type. Valid values: StandAlone, MasterAgreement, SubAgreement. If you specify SubAgreement, use the ParentAgreementID element to specify the contract ID of the master agreement.
+                                MaxAutoRenewalsAllowed: (Optional) Maximum number of renewals allowed. Required if ExpirationTermType is AutoRenew.
+                                Owner: (Optional) Specifies the owner for the project. If you are creating a project and do not include this element, the project is created with the user specified in the OnBehalfUserId element as the owner. Contains UniqueName element.
+                                Owner.UniqueName: (Optional) Unique name (for example, jsmith) of the owner.
+                                ProposedAmount: (Optional) The proposed monetary amount of the contract. Contains Amount and Currency elements.
+                                ProposedAmount.Amount: (Optional) Amount (xsd:decimal).
+                                ProposedAmount.Currency: (Optional) Contains UniqueName element.
+                                ProposedAmount.Currency.UniqueName: (Optional) Specifies the currency type using the ISO 4217 alphabetic code. To determine valid values, use the Export Currency (CSV) task.  Examples: USD, EUR, CNY.
+                                Region: (Optional) The regions for the project. Contains item elements.
+                                Region.item: (Optional) Contains Region element.
+                                Region.item.Region: (Optional)  Specifies the region. To determine valid values, use the Export Regions task.
+                                RelatedId: (Optional) Specifies any related ID, such as an ID for a related record or document in an external system.
+                                Supplier: (Optional) Specifies the supplier. Contains SystemID element.
+                                SystemID: (Required) Specifies the system ID of the supplier. To determine valid values for suppliers, use the Export Organizations task. You can also view the supplier in the chooser for the Supplier field of a project; click on the supplier name to view the details for the name and use the value displayed in the ID field.
+                                Title: (Optional) Workspace title. Contains DefaultStringTranslation element. If Action=Create, you must specify this element.
+                                Title.DefaultStringTranslation: (Optional) Workspace title.
+                                custom: (Optional) Custom fields. Omit if your site has no custom fields for this project type.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="TemplateId" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Project template ID. Example: SYS1234. If Action element is Update, this element is ignored.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="WorkspaceId" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Specifies the workspace ID of the project.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="WSContractWorkspaceOutputBean">
+                <xsd:all>
+                    <xsd:element name="ErrorMessage" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Message returned from the service execution.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Status" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Return status. 0 indicates success.Status code returned from the service execution.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Url" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>URL for the created or updated project.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="WorkspaceId" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Unique, system-generated ID for the created or updated project.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="ContractWorkspace_WSProjectImport">
+                <xsd:annotation>
+                    <xsd:documentation>Name null, type ariba.collaborate.contracts.ContractWorkspace, variant vrealm_50309.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:all>
+                    <xsd:element minOccurs="0" name="AffectedParties">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Zero or more hierarchical entities affected by the contract. Affected parties can be suppliers or others.</xsd:documentation>
+                                <xsd:documentation>Class name ariba.user.core.Organization, group name WSProjectReference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:sequence>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="item">
+                                    <xsd:complexType>
+                                        <xsd:all>
+                                            <xsd:element minOccurs="0" name="SystemID" nillable="true" type="xsd:string"/>
+                                            <xsd:element maxOccurs="1" minOccurs="0" name="custom">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomBigDecimal" nillable="true">
+                                                            <xsd:complexType>
+                                                                <xsd:simpleContent>
+                                                                    <xsd:extension base="xsd:decimal">
+                                                                        <xsd:attribute name="name" type="xsd:string"/>
+                                                                    </xsd:extension>
+                                                                </xsd:simpleContent>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomBoolean" nillable="true">
+                                                            <xsd:complexType>
+                                                                <xsd:simpleContent>
+                                                                    <xsd:extension base="xsd:boolean">
+                                                                        <xsd:attribute name="name" type="xsd:string"/>
+                                                                    </xsd:extension>
+                                                                </xsd:simpleContent>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomDate" nillable="true">
+                                                            <xsd:complexType>
+                                                                <xsd:simpleContent>
+                                                                    <xsd:extension base="xsd:dateTime">
+                                                                        <xsd:attribute name="name" type="xsd:string"/>
+                                                                    </xsd:extension>
+                                                                </xsd:simpleContent>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomInteger" nillable="true">
+                                                            <xsd:complexType>
+                                                                <xsd:simpleContent>
+                                                                    <xsd:extension base="xsd:integer">
+                                                                        <xsd:attribute name="name" type="xsd:string"/>
+                                                                    </xsd:extension>
+                                                                </xsd:simpleContent>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomMoney" nillable="true">
+                                                            <xsd:complexType>
+                                                                <xsd:complexContent>
+                                                                    <xsd:extension base="typens:Money_Reference">
+                                                                        <xsd:attribute name="name" type="xsd:string"/>
+                                                                    </xsd:extension>
+                                                                </xsd:complexContent>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomString" nillable="true">
+                                                            <xsd:complexType>
+                                                                <xsd:simpleContent>
+                                                                    <xsd:extension base="xsd:string">
+                                                                        <xsd:attribute name="name" type="xsd:string"/>
+                                                                    </xsd:extension>
+                                                                </xsd:simpleContent>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </xsd:all>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="AgreementDate" nillable="true" type="xsd:dateTime">
+                        <xsd:annotation>
+                            <xsd:documentation>The date when the parties agreed to the contract.</xsd:documentation>
+                            <xsd:documentation>Class name ariba.util.core.Date, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Amount">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>The total monetary amount of the contract.</xsd:documentation>
+                                <xsd:documentation>Class name ariba.basic.core.Money, group name WSProjectReference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="Amount" nillable="true" type="xsd:decimal"/>
+                                <xsd:element minOccurs="0" name="Currency">
+                                    <xsd:complexType>
+                                        <xsd:annotation>
+                                            <xsd:documentation>Class name ariba.basic.core.Currency, group name Reference, variant vrealm_50309.</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:all>
+                                            <xsd:element minOccurs="0" name="UniqueName" nillable="true" type="xsd:string"/>
+                                        </xsd:all>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="AutoRenewalInterval" nillable="true" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Renewal Interval in Months. Required with Auto-Renew ExpirationTermType.</xsd:documentation>
+                            <xsd:documentation>Class name java.lang.Integer, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="BaseLanguage">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.basic.core.LocaleID, group name Reference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="UniqueName" nillable="true" type="xsd:string"/>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Client">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.collaborate.basic.Department, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:sequence>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="item">
+                                    <xsd:complexType>
+                                        <xsd:all>
+                                            <xsd:element minOccurs="0" name="DepartmentID" nillable="true" type="xsd:string"/>
+                                        </xsd:all>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="1" name="Commodity">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Commodity Categories</xsd:documentation>
+                                <xsd:documentation>Class name ariba.basic.core.CommodityCode, group name OrganizationCategoryDetail, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:sequence>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="item">
+                                    <xsd:complexType>
+                                        <xsd:all>
+                                            <xsd:element minOccurs="1" name="Domain" nillable="true" type="xsd:string">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>The name of the classification system for the commodity code.</xsd:documentation>
+                                                    <xsd:documentation>Class name java.lang.String, group name OrganizationCategoryDetail, variant vrealm_50309.</xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="1" name="UniqueName" nillable="true" type="xsd:string">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>Defines the unique name of this commodity code.</xsd:documentation>
+                                                    <xsd:documentation>Class name java.lang.String, group name OrganizationCategoryDetail, variant vrealm_50309.</xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                        </xsd:all>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="ContractId" nillable="true" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>The contract id. Typically this is the unique id in the 3rd party system</xsd:documentation>
+                            <xsd:documentation>Class name java.lang.String, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Description">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.base.core.ShortMultiLocaleString, group name WSProjectReference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="DefaultStringTranslation" nillable="true" type="xsd:string"/>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="1" name="EffectiveDate" nillable="true" type="xsd:dateTime">
+                        <xsd:annotation>
+                            <xsd:documentation>The date when the terms of the contract go into effect.</xsd:documentation>
+                            <xsd:documentation>Class name ariba.util.core.Date, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="ExpirationDate" nillable="true" type="xsd:dateTime">
+                        <xsd:annotation>
+                            <xsd:documentation>The date on which the contract expires, and after which its terms are no longer in effect unless it is renewed or amended.</xsd:documentation>
+                            <xsd:documentation>Class name ariba.util.core.Date, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="1" name="ExpirationTermType" nillable="true" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>The expiration term type for the contract. The valid values are Fixed, Perpetual, and Auto-Renew.</xsd:documentation>
+                            <xsd:documentation>Class name java.lang.String, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="HierarchicalType" nillable="true" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>Indicates the hierarchical relationship between the contract project and other contract project.  The valid values are StandAlone, MasterAgreement, and SubAgreement.</xsd:documentation>
+                            <xsd:documentation>Class name java.lang.String, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="MaxAutoRenewalsAllowed" nillable="true" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation>Maximum number of contract renewals. Required with Auto-Renew ExpirationTermType.</xsd:documentation>
+                            <xsd:documentation>Class name java.lang.Integer, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Owner">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.user.core.Principal, group name WSProjectReference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="UniqueName" nillable="true" type="xsd:string"/>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Region">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.collaborate.basic.Region, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:sequence>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="item">
+                                    <xsd:complexType>
+                                        <xsd:all>
+                                            <xsd:element minOccurs="0" name="Region" nillable="true" type="xsd:string"/>
+                                        </xsd:all>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="RelatedId" nillable="true" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>A unique identifier string for any projects related to the current contract project.</xsd:documentation>
+                            <xsd:documentation>Class name java.lang.String, group name WSProjectImport, variant vrealm_50309.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="1" name="Supplier">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Supplier or Customer Organization associated with the contract</xsd:documentation>
+                                <xsd:documentation>Class name ariba.user.core.Organization, group name WSProjectReference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="SystemID" nillable="true" type="xsd:string"/>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="Title">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.base.core.ShortMultiLocaleString, group name WSProjectReference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="DefaultStringTranslation" nillable="true" type="xsd:string"/>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="custom">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomBigDecimal" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:decimal">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomBoolean" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:boolean">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomDate" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:dateTime">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomInteger" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:integer">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomMoney" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:complexContent>
+                                            <xsd:extension base="typens:Money_Reference">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:complexContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomString" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomString_Vector" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:annotation>
+                                            <xsd:documentation>"BPLegalEntity" is the name of a flex field that can be imported or exported.</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:sequence>
+                                            <xsd:element maxOccurs="unbounded" minOccurs="0" name="item">
+                                                <xsd:complexType>
+                                                    <xsd:all>
+                                                        <xsd:element name="CustomString" type="xsd:string"/>
+                                                    </xsd:all>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                        <xsd:attribute name="name" type="xsd:string"/>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="CustomUser" nillable="true">
+                                    <xsd:complexType>
+                                        <xsd:complexContent>
+                                            <xsd:extension base="typens:User_Reference">
+                                                <xsd:attribute name="name" type="xsd:string"/>
+                                            </xsd:extension>
+                                        </xsd:complexContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="Money_Reference">
+                <xsd:annotation>
+                    <xsd:documentation>Name null, type ariba.basic.core.Money, variant vrealm_50309.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:all>
+                    <xsd:element minOccurs="0" name="Amount" nillable="true" type="xsd:decimal"/>
+                    <xsd:element minOccurs="0" name="AmountInReportingCurrency" nillable="true" type="xsd:decimal"/>
+                    <xsd:element minOccurs="0" name="ApproxAmountInBaseCurrency" nillable="true" type="xsd:decimal"/>
+                    <xsd:element minOccurs="0" name="ConversionDate" nillable="true" type="xsd:dateTime"/>
+                    <xsd:element minOccurs="0" name="Currency">
+                        <xsd:complexType>
+                            <xsd:annotation>
+                                <xsd:documentation>Class name ariba.basic.core.Currency, group name Reference, variant vrealm_50309.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:all>
+                                <xsd:element minOccurs="0" name="UniqueName" nillable="true" type="xsd:string"/>
+                            </xsd:all>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:all>
+            </xsd:complexType>
+            <xsd:complexType name="User_Reference">
+                <xsd:annotation>
+                    <xsd:documentation>Name null, type ariba.user.core.User, variant vrealm_50309.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:all>
+                    <xsd:element minOccurs="0" name="PasswordAdapter" nillable="true" type="xsd:string"/>
+                    <xsd:element minOccurs="1" name="UniqueName" nillable="true" type="xsd:string"/>
+                </xsd:all>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="HeadersMessage">
+        <part element="typens:Headers" name="header"/>
+    </wsdl:message>
+    <wsdl:message name="ContractWorkspaceImportRequestMessage">
+        <part element="typens:ContractWorkspaceImportRequest" name="body"/>
+    </wsdl:message>
+    <wsdl:message name="ContractWorkspaceImportReplyMessage">
+        <part element="typens:ContractWorkspaceImportReply" name="body"/>
+    </wsdl:message>
+    <wsdl:portType name="ContractWorkspaceImportPortType">
+        <wsdl:operation name="ContractWorkspaceImportOperation">
+            <wsdl:input message="typens:ContractWorkspaceImportRequestMessage"/>
+            <wsdl:output message="typens:ContractWorkspaceImportReplyMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ContractWorkspaceImportBinding" type="typens:ContractWorkspaceImportPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ContractWorkspaceImportOperation">
+            <soap:operation soapAction="/Process Definition"/>
+            <wsdl:input>
+                <soap:header message="typens:HeadersMessage" part="header" use="literal"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header message="typens:HeadersMessage" part="header" use="literal"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ContractWorkspaceImport">
+        <wsdl:documentation>Ariba Web Service</wsdl:documentation>
+        <wsdl:port binding="typens:ContractWorkspaceImportBinding" name="ContractWorkspaceImportPortType">
+            <soap:address location="https://s1-eu.ariba.com/Sourcing/soap/bp-T/ContractWorkspaceImport"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

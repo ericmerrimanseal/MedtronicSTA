@@ -1,0 +1,19 @@
+{
+  "id": "0",
+  "inFile": "./in/prod.csv",
+  "aribaURL": "https://Medtronicinc-S1-T.sourcing.ariba.com",
+  "aribaUser": "seal_uid",
+  "aribaPwd": "go2ariba12345",
+  "usersFile": "./in/masterdata/PROD/users.csv",
+  "supplierProfileFile": "./in/masterdata/PROD/supplierprofiles_approved.csv",
+  "aribaTemplate": "CW2220683",
+  "defaultOwner": "emerriman",
+  "enumsFile": "./in/masterdata/PROD/enums.csv",
+  "commodityCodesFile": "./in/masterdata/PROD/commoditycodes.csv",
+  "rootFolder": "Legacy Contract Documents",
+  "sealURL": "http://localhost:8080",
+  "sealUser": "root",
+  "sealPassword": "seal",
+  "defaultOwnerPasswordAdapter": "ThirdPartyUser",
+  "useDefaultOwner": true
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h4><span th:text="'Contracts processed: ' + ${result.processed.size()}"/></h4>
+
+<!--<h4><span th:text="'Contracts filtered out: ' + ${result.filteredOut.size()}"/></h4>-->
+
+<div><h4>Contracts successfully generated: <span style="color: green" th:text="${result.withSuccess.size()}"></span></h4></div>
+
+<div><h4>Contracts failed: <span style="color: red" th:text="${result.withFailure.size()}"></span></h4></div>
+
+<!--<h4><span th:text="'Contracts failed: ' + ${result.withFailure.size()}"/></h4>-->
+
+<!-- <h4><span th:text="'Contracts skipped: ' + ${result.missing.size()}"/></h4> -->
+
+<div><h4>Overall status: <span th:text="${result.status}"></span></h4></div>
+<!--<h4><span th:text="'Overall status: ' + ${result.status}"/></h4>-->
+
+<h4>Errors encountered:</h4>
+<!--<a th:href="@{/builds/new/export/errors}"><span th:text="Export"></span></a>-->
+
+<table border="solid">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Contract Id</th>
+        <th>Error</th>
+        <th>Severity</th>
+        <th>Hash</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="error,iterStat : ${errors}" th:bgcolor="${iterStat.odd}? '#e2e7e9'">
+        <td th:text="${iterStat.count}"/>
+        <td th:text="${error.contractId}"/>
+        <td th:text="${error.error}"/>
+        <td th:text="${error.severity}"/>
+        <td th:text="${error.recordId.orNull()}"/>
+    </tr>
+    </tbody>
+</table>
+
+<h4>Warnings encountered:</h4>
+
+<table border="solid">
+    <thead>
+    <tr>
+        <th>No.</th>
+        <th>Document Id</th>
+        <th>Warning</th>
+        <th>Severity</th>
+        <th>Record ID</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="warning,iterStat : ${warnings}" th:bgcolor="${iterStat.odd}? '#e2e7e9'">
+        <td th:text="${iterStat.count}"/>
+        <td th:text="${warning.contractId}"/>
+        <td th:text="${warning.error}"/>
+        <td th:text="${warning.severity}"/>
+        <td th:text="${warning.recordId.orNull()}"/>
+    </tr>
+    </tbody>
+</table>
+
+<h4 th:text="'Records with no searchable attachment ['+${result.noSearchables.size()}+']'"></h4>
+
+<table border="solid">
+    <thead>
+    <tr>
+        <th>Document Id</th>
+        <th>Original File</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="noSearchable : ${result.noSearchables}">
+        <td th:text="${noSearchable.getKey()}"/>
+        <td th:text="${noSearchable.getValue()}"/>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

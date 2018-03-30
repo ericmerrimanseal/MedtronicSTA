@@ -1,0 +1,1 @@
+java -jar sta-1.0-SNAPSHOT.jar --seal.pull.enabled=true --seal.sync.enabled=true --seal.update.migrationready.enabled=false

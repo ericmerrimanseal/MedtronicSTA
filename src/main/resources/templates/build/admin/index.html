@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript">
+        function confSubmit(form) {
+            if (confirm("Are you sure ?")) {
+                form.submit();
+            }
+        }
+    </script>
+</head>
+<body>
+
+<a href="/home">Home</a>
+
+<h1><span th:text="'Admin'"/></h1>
+
+<!--<table border="0" cellspacing="10" cellpadding="10">
+    <tr>
+        <th>
+            <a href="/admin/download/team">Export Team File</a>
+        </th>
+        <th>
+            <a href="/admin/download/links">Export Links</a>
+        </th>
+        <th>
+            <a href="/admin/download/db">Export DB</a>
+        </th>
+        <th>
+            <a href="/admin/review/import">Review Import Process</a>
+        </th>
+        <th>
+            <a href="/admin/download/log">Export Log</a>
+        </th>
+    </tr>
+</table>-->
+<table border="0" cellspacing="10" cellpadding="10">
+    <tr>
+        <td>
+            <div>
+                <form action="#" method="POST">
+                    <button type="submit" onclick="confSubmit(this.form)">Force Discovery</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
